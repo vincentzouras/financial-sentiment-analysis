@@ -1,15 +1,19 @@
 
 #importing all necessary functions from each file
 from src.clean_prices import clean_price_data
-from src.clean_headlines
-from src.model
+# from src.clean_headlines
+# from src.model
 
 def main():
 
     print("Welcome to the Financial Sentiment Analysis Tool!")
-    # Main application logic would go here
-    # For example, loading data, performing analysis, generating reports, etc.
-    pass
+    print("-------------------------------------------------\n\n")
+
+    # Companies we are focusing on
+    companies = ['AAPL', 'MSFT', 'GOOGL']  # Apple, Microsoft, Alphabet
+    # Clean price data
+    for company in companies:
+        clean_price_data(company, '2020-01-01', '2023-01-01')
 
 
 if __name__ == '__main__':
