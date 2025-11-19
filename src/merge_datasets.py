@@ -11,5 +11,15 @@ def merge_price_headlines(price_data, news_data):
     Returns:
     pd.DataFrame: Merged DataFrame containing both price and headline data.
     """
-    merged_data = pd.merge(news_data, price_data, on='Date', how='inner')
+
+     # Make copies so we don't mutate originals
+    price = price_data.copy()
+    news = news_data.copy()
+
+    # Ensure both Date columns are datetime and stripped to date level
+    price["Date"] = pd.to_datetime(price["Date"]).dt.normalize()
+    news["Date"] = pd.to_datetime(news["Date"]).dt.normalize()
+
+
+    merged_data = pd.merge(news, price, on='Date', how='inner')
     return merged_data

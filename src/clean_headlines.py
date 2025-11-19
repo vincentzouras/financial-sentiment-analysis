@@ -2,7 +2,9 @@ import re
 import pandas as pd
 import nltk
 nltk.download('stopwords')
+
 from nltk.corpus import stopwords
+from datetime import datetime
 
 
 def clean_text(text):
@@ -21,17 +23,15 @@ def clean_text(text):
 def clean_news_data(input_path, output_path):
     df = pd.read_csv(input_path)
 
+    # Convert Time → Date
+    df["Date"] = df["Time"].apply(convert_to_date)
+
     # Combine fields for strongest NLP signal
     # CNBC
     # Headlines,Time,Description
-    # guardians
-    # Time,Headlines
-    # reuters
-    # Time,Headlines,Description
 
     df["combined_text"] = (
         df["Headlines"].fillna("") + " " +
-        df["Time"].fillna("") + " " +
         df["Description"].fillna("")
     )
 
@@ -40,3 +40,11 @@ def clean_news_data(input_path, output_path):
     df.to_csv(output_path, index=False)
     return df
 
+
+def convert_to_date(raw_time):
+    try:
+        # Example format: "7:51 PM ET Fri, 17 July 2020"
+        dt = datetime.strptime(raw_time, "%I:%M %p ET %a, %d %B %Y")
+        return dt.date()
+    except:
+        return None

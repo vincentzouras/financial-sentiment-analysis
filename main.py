@@ -16,7 +16,8 @@ def main():
     print("Welcome to the Financial Sentiment Analysis Tool!")
     print("-------------------------------------------------\n\n")
 
-    datasets = ["cnbc_headlines", "reuters_headlines", "guardian_headlines"]
+    # datasets = ["cnbc_headlines", "reuters_headlines", "guardian_headlines"]\
+    datasets = ["cnbc_headlines"]
     companies = ['AAPL', 'MSFT', 'GOOGL']  # Apple, Microsoft, Alphabet
 
     # Clean price data and merge into single DataFrame
@@ -40,29 +41,15 @@ def main():
     news_frames = pd.concat(news_frames, ignore_index=True)
 
     # Merging headlines and prices
+    print("Merging price and headline data...")
     merged_df = merge_price_headlines(all_prices, news_frames)
+    print(f"Merged dataset shape: {merged_df.head()}")
 
     # create TF-IDF features with cleaned merged data
     X_text, tfidf_vectorizer = create_tfidf_features(
         merged_df,
         save_vectorizer_path="models/tfidf.pkl"
     )
-
-    # extract labels
-    y = merged_df['label']
-
-    # train naives bayes
-    X_train, X_test, y_train, y_test = train_test_split(
-        X_text, y, test_size=0.2, random_state=42
-    )
-
-    model = MultinomialNB()
-    model.fit(X_train, y_train)
-
-    preds = model.predict(X_test)
-
-    print(classification_report(y_test, preds))
-
 
 
 if __name__ == '__main__':
