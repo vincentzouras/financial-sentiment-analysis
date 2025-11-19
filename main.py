@@ -1,6 +1,6 @@
 
 #importing all necessary functions from each file
-from pandas import pd
+import pandas as pd
 
 from src.clean_prices import clean_price_data
 from src.clean_headlines import clean_news_data

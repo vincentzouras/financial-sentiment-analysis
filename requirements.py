@@ -10,6 +10,7 @@ REQUIRED_PACKAGES = [
     'yfinance>=0.2.25',
     'scikit-learn>=1.2.2',
     'matplotlib>=3.7.1',
+    'nltk>=3.8.1'
 ]
 
 def install_and_import(package_list):

@@ -1,13 +1,14 @@
 import re
 import pandas as pd
+import nltk
+nltk.download('stopwords')
 from nltk.corpus import stopwords
 
 
-# stop words
-stop_words = set(stopwords.words("english"))
-
-
 def clean_text(text):
+    # stop words
+    stop_words = set(stopwords.words('english'))
+
     if pd.isna(text):
         return ""
     text = text.lower()
@@ -21,10 +22,17 @@ def clean_news_data(input_path, output_path):
     df = pd.read_csv(input_path)
 
     # Combine fields for strongest NLP signal
+    # CNBC
+    # Headlines,Time,Description
+    # guardians
+    # Time,Headlines
+    # reuters
+    # Time,Headlines,Description
+
     df["combined_text"] = (
-        df["headline"].fillna("") + " " +
-        df["summary"].fillna("") + " " +
-        df["article"].fillna("")
+        df["Headlines"].fillna("") + " " +
+        df["Time"].fillna("") + " " +
+        df["Description"].fillna("")
     )
 
     df["clean_text"] = df["combined_text"].apply(clean_text)

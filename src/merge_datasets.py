@@ -1,4 +1,4 @@
-from pandas import pd
+import pandas as pd
 
 def merge_price_headlines(price_data, news_data):
     """
